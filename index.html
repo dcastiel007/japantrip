@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>יפן נובמבר 2026</title>
+<meta name="description" content="דף התכנון המשותף לנסיעה ליפן, נובמבר 2026 — טיסות, מסלול, סטטוס הזמנות ולוגיסטיקה.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="יפן נובמבר 2026">
+<meta property="og:description" content="ארבעה נוסעים, חמישה־עשר לילות, שלוש ערי בסיס.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F4F6FA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D1017" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ground:#F4F6FA;
+  --surface:#FFFFFF;
+  --surface-2:#EDF0F6;
+  --ink:#12161F;
+  --ink-2:#4E5768;
+  --ink-3:#7C8698;
+  --line:#DCE1EA;
+  --line-2:#C6CDDA;
+  --accent:#2E4374;
+  --accent-soft:#E3E8F4;
+  --hot:#A9382C;
+  --hot-soft:#F6E5E2;
+  --good:#2C6552;
+  --good-soft:#E0EDE8;
+  --shadow:0 1px 2px rgba(18,22,31,.05), 0 8px 24px -16px rgba(18,22,31,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1017;
+    --surface:#151A24;
+    --surface-2:#1D2431;
+    --ink:#E8ECF3;
+    --ink-2:#A3ADBF;
+    --ink-3:#6F7A8C;
+    --line:#252D3B;
+    --line-2:#354055;
+    --accent:#8FA8DC;
+    --accent-soft:#1B2436;
+    --hot:#E08A7C;
+    --hot-soft:#2C1D1B;
+    --good:#79BFA5;
+    --good-soft:#152722;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1017;
+  --surface:#151A24;
+  --surface-2:#1D2431;
+  --ink:#E8ECF3;
+  --ink-2:#A3ADBF;
+  --ink-3:#6F7A8C;
+  --line:#252D3B;
+  --line-2:#354055;
+  --accent:#8FA8DC;
+  --accent-soft:#1B2436;
+  --hot:#E08A7C;
+  --hot-soft:#2C1D1B;
+  --good:#79BFA5;
+  --good-soft:#152722;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Assistant","Segoe UI",system-ui,sans-serif;
+  font-weight:400;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{direction:rtl;max-width:780px;margin:0 auto;padding:0 20px 96px}
+
+/* ---------- header ---------- */
+.masthead{padding:56px 0 32px;border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;margin:0 0 14px;
+}
+.masthead h1{
+  font-family:"Frank Ruhl Libre",Georgia,serif;
+  font-weight:900;font-size:clamp(38px,8vw,60px);line-height:1.02;
+  margin:0;letter-spacing:-.01em;text-wrap:balance;
+}
+.masthead .sub{
+  margin:14px 0 0;color:var(--ink-2);font-size:17px;max-width:52ch;
+}
+.meterline{
+  display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:26px;
+  padding-top:22px;border-top:1px solid var(--line);
+}
+.meter .k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.meter .v{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:20px;font-weight:500;color:var(--ink);
+  font-variant-numeric:tabular-nums;line-height:1.2;
+}
+.meter .v.hi{color:var(--accent)}
+
+/* ---------- sections ---------- */
+section{padding-top:48px}
+h2{
+  font-family:"Frank Ruhl Libre",Georgia,serif;
+  font-weight:700;font-size:25px;margin:0 0 4px;letter-spacing:-.005em;
+}
+.lede{margin:0 0 22px;color:var(--ink-2);font-size:15px;max-width:60ch}
+
+/* ---------- flights ---------- */
+.flights{display:grid;gap:14px}
+.flight{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:4px;padding:20px 22px;box-shadow:var(--shadow);
+}
+.flight-head{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;margin-bottom:16px;
+}
+.flight-head .dir{font-weight:700;font-size:16px}
+.flight-head .dur{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-3);
+  font-variant-numeric:tabular-nums;
+}
+.hops{display:flex;align-items:stretch;gap:0}
+.hop{flex:1;min-width:0}
+.hop .code{
+  font-family:"IBM Plex Mono",monospace;font-weight:500;
+  font-size:13px;color:var(--ink-3);letter-spacing:.04em;
+}
+.hop .time{
+  font-family:"IBM Plex Mono",monospace;font-size:24px;font-weight:500;
+  font-variant-numeric:tabular-nums;line-height:1.25;display:block;
+}
+.hop .day{font-size:12.5px;color:var(--ink-2)}
+.hop.mid{flex:0 0 auto;padding:0 14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center}
+.hop.mid .dash{
+  width:100%;min-width:44px;height:1px;background:var(--line-2);position:relative;
+}
+.hop.mid .dash::after{
+  content:"";position:absolute;inset-block-start:-2px;inset-inline-start:50%;
+  width:5px;height:5px;border-radius:50%;background:var(--accent);
+  transform:translateX(-50%);
+}
+.hop.mid .lay{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);
+  margin-top:7px;white-space:nowrap;
+}
+.hop.end{text-align:left}
+.flight-note{
+  margin:16px 0 0;padding-top:13px;border-top:1px solid var(--line);
+  font-size:13.5px;color:var(--ink-2);
+}
+
+/* ---------- rail timeline ---------- */
+.rail{position:relative;margin-top:6px;padding-inline-start:0}
+.rail::before{
+  content:"";position:absolute;inset-block:14px 22px;
+  inset-inline-end:7px;width:2px;background:var(--line-2);
+}
+.stop{position:relative;padding-inline-end:34px;padding-bottom:26px}
+.stop::before{
+  content:"";position:absolute;inset-inline-end:2px;top:12px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--line-2);
+}
+.stop.peak::before{background:var(--hot);border-color:var(--hot)}
+.stop-card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:4px;padding:15px 18px;box-shadow:var(--shadow);
+}
+.stop.peak .stop-card{border-color:var(--hot)}
+.stop-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.stop-top .place{font-weight:700;font-size:18px}
+.stop-top .dates{
+  font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink-2);
+  font-variant-numeric:tabular-nums;
+}
+.nights{
+  margin-inline-start:auto;font-family:"IBM Plex Mono",monospace;
+  font-size:12px;font-weight:500;color:var(--ink-2);
+  background:var(--surface-2);border-radius:3px;padding:2px 8px;white-space:nowrap;
+}
+.stop-body{margin:8px 0 0;font-size:14.5px;color:var(--ink-2)}
+.leg{
+  position:relative;padding-inline-end:34px;padding-bottom:26px;
+  font-size:13.5px;color:var(--ink-3);
+}
+.leg::before{
+  content:"";position:absolute;inset-inline-end:5.5px;top:9px;
+  width:5px;height:5px;border-radius:50%;background:var(--line-2);
+}
+.leg b{color:var(--ink-2);font-weight:600}
+
+/* ---------- tags ---------- */
+.tag{
+  display:inline-block;font-size:11.5px;font-weight:600;
+  letter-spacing:.04em;padding:2px 8px;border-radius:3px;
+  background:var(--accent-soft);color:var(--accent);
+}
+.tag.hot{background:var(--hot-soft);color:var(--hot)}
+.tag.good{background:var(--good-soft);color:var(--good)}
+
+/* ---------- table ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:440px;font-size:14.5px}
+th,td{text-align:right;padding:11px 16px;border-bottom:1px solid var(--line)}
+th{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;background:var(--surface-2);
+}
+tr:last-child td{border-bottom:none}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.what{color:var(--ink-2)}
+
+/* ---------- notes ---------- */
+.notes{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.note{background:var(--surface);padding:16px 18px}
+.note h3{margin:0 0 5px;font-size:15px;font-weight:700}
+.note p{margin:0;font-size:14px;color:var(--ink-2)}
+
+/* ---------- alert ---------- */
+.alert{
+  background:var(--hot-soft);border:1px solid var(--hot);
+  border-radius:4px;padding:16px 18px;
+}
+.alert h3{margin:0 0 5px;font-size:15px;font-weight:700;color:var(--hot)}
+.alert p{margin:0;font-size:14.5px;color:var(--ink)}
+
+/* ---------- footer ---------- */
+footer{
+  margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:13px;color:var(--ink-3);
+}
+
+@media (max-width:560px){
+  .masthead{padding-top:40px}
+  .hop .time{font-size:20px}
+  .hop.mid{padding:0 8px}
+  .meterline{gap:10px 20px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">מסמך תכנון משותף</p>
+    <h1>יפן,<br>נובמבר 2026</h1>
+    <p class="sub">ארבעה נוסעים, חמישה־עשר לילות, שלוש ערי בסיס. הדף מתעדכן ככל שהתכנון מתקדם — ההזמנות שכבר נסגרו מסומנות.</p>
+    <div class="meterline">
+      <div class="meter"><div class="k">יציאה</div><div class="v" id="dep">11.11.26</div></div>
+      <div class="meter"><div class="k">חזרה</div><div class="v">28.11.26</div></div>
+      <div class="meter"><div class="k">לילות</div><div class="v">15</div></div>
+      <div class="meter"><div class="k">נותרו</div><div class="v hi" id="countdown">—</div></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>הטיסות</h2>
+    <p class="lede">Emirates, קונקשן אחד בדובאי בכל כיוון. נכנסים דרך נאריטה, יוצאים מהאנדה.</p>
+    <div class="flights">
+
+      <div class="flight">
+        <div class="flight-head">
+          <span class="dir">הלוך · רביעי 11 בנובמבר</span>
+          <span class="dur">15 שעות</span>
+        </div>
+        <div class="hops">
+          <div class="hop">
+            <span class="code">TLV · EK2449</span>
+            <span class="time">15:10</span>
+            <span class="day">רביעי 11.11</span>
+          </div>
+          <div class="hop mid">
+            <div class="dash"></div>
+            <div class="lay">DXB · 2ש׳ 30ד׳</div>
+          </div>
+          <div class="hop end">
+            <span class="code">NRT · EK320</span>
+            <span class="time">13:10</span>
+            <span class="day">חמישי 12.11</span>
+          </div>
+        </div>
+        <p class="flight-note">נחיתה בצהריים — יום ראשון קל בטוקיו, בלי לתכנן כלום אחרי 20:00.</p>
+      </div>
+
+      <div class="flight">
+        <div class="flight-head">
+          <span class="dir">חזור · שישי 27 בנובמבר</span>
+          <span class="dur">22 שעות 35ד׳</span>
+        </div>
+        <div class="hops">
+          <div class="hop">
+            <span class="code">NRT · EK319</span>
+            <span class="time">22:20</span>
+            <span class="day">שישי 27.11</span>
+          </div>
+          <div class="hop mid">
+            <div class="dash"></div>
+            <div class="lay">DXB · 6ש׳ 35ד׳</div>
+          </div>
+          <div class="hop end">
+            <span class="code">TLV · EK2448</span>
+            <span class="time">13:55</span>
+            <span class="day">שבת 28.11</span>
+          </div>
+        </div>
+        <p class="flight-note">יום שישי נשאר פנוי בטוקיו עד אחר הצהריים. צ׳ק־אאוט בבוקר, מזוודות בלובי, יציאה לנאריטה סביב 18:45.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>המסלול</h2>
+    <p class="lede">שלוש ערי בסיס ושתי נסיעות שינקנסן. המזוודות נוסעות ב־takuhaibin, לא איתנו.</p>
+
+    <div class="rail">
+
+      <div class="stop">
+        <div class="stop-card">
+          <div class="stop-top">
+            <span class="place">טוקיו</span>
+            <span class="dates">12–19.11</span>
+            <span class="nights">7 לילות</span>
+          </div>
+          <p class="stop-body">הבלוק הגדול. אוכל, אמנות ואדריכלות, שכונות, קניות. היומיים הראשונים נשארים רכים בכוונה בגלל הפרש השעות.</p>
+        </div>
+      </div>
+
+      <div class="leg">חמישי 19.11 · שינקנסן <b>Nozomi</b> טוקיו ← אוסקה · כשעתיים וחצי</div>
+
+      <div class="stop">
+        <div class="stop-card">
+          <div class="stop-top">
+            <span class="place">אוסקה</span>
+            <span class="dates">19–24.11</span>
+            <span class="nights">5 לילות</span>
+          </div>
+          <p class="stop-body">בסיס לאזור קנסאי. אוכל ורחוב, ויציאות לנארה ולקובה. סוף השבוע הארוך של החג נופל כאן — וזה בכוונה.</p>
+        </div>
+      </div>
+
+      <div class="leg">שלישי 24.11 · רכבת אוסקה ← קיוטו · כחצי שעה</div>
+
+      <div class="stop peak">
+        <div class="stop-card">
+          <div class="stop-top">
+            <span class="place">קיוטו</span>
+            <span class="dates">24–26.11</span>
+            <span class="nights">2 לילות</span>
+          </div>
+          <p class="stop-body">
+            <span class="tag hot">שיא הקויו</span>
+            שני לילות בעיר עצמה כדי לצאת מוקדם בבוקר, לפני שהאתרים מתמלאים. אחרי החג ובאמצע השבוע.
+          </p>
+        </div>
+      </div>
+
+      <div class="leg">חמישי 26.11 · בוקר בקיוטו, ואז שינקנסן <b>מתחנת קיוטו</b> ← טוקיו · שעתיים ורבע</div>
+
+      <div class="stop">
+        <div class="stop-card">
+          <div class="stop-top">
+            <span class="place">טוקיו</span>
+            <span class="dates">26–27.11</span>
+            <span class="nights">לילה 1</span>
+          </div>
+          <p class="stop-body">סגירת מעגל. יום שישי לקניות אחרונות ולמה שלא הספקנו, ואז נאריטה אקספרס מתחנת טוקיו.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>תאריכים שמשנים את התכנון</h2>
+    <p class="lede">שני דברים בלוח השנה היפני מכתיבים את כל סדר הימים.</p>
+    <div class="alert">
+      <h3>שני 23 בנובמבר — חג לאומי</h3>
+      <p>יום הודיה לעבודה, שיוצר סוף שבוע ארוך מ־21 עד 23 בנובמבר. בשילוב עם תחילת שיא הקויו, זה הזמן הכי עמוס בקיוטו בכל הסתיו. לכן אנחנו באוסקה באותם ימים, ומגיעים לקיוטו רק ב־24.</p>
+    </div>
+    <div class="notes" style="margin-top:14px">
+      <div class="note">
+        <h3>שיא הקויו בקיוטו: 20.11 – 7.12</h3>
+        <p>הקיץ של 2026 היה חם והשיא נדחה בשלושה עד חמישה ימים. שלושת הימים שלנו בקיוטו נופלים בתוך החלון, אחרי החג ובימי חול.</p>
+      </div>
+      <div class="note">
+        <h3>מזג אוויר</h3>
+        <p>סוף נובמבר בטוקיו ובקנסאי: בערך 8–16 מעלות, יבש ובהיר ברובו. ערבים קרים. שכבות ומעיל קל, לא מעיל חורף.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>סטטוס הזמנות</h2>
+    <p class="lede">מה נסגר, מה בתור, ומה יש לו דדליין אמיתי.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>פריט</th><th>תאריכים</th><th>סטטוס</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="what">טיסות Emirates</td><td class="num">11–28.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">לינה קיוטו</td><td class="num">24–26.11</td><td><span class="tag hot">דחוף</span></td></tr>
+          <tr><td class="what">לינה אוסקה</td><td class="num">19–24.11</td><td><span class="tag">השבוע</span></td></tr>
+          <tr><td class="what">לינה טוקיו</td><td class="num">12–19.11</td><td><span class="tag">השבוע</span></td></tr>
+          <tr><td class="what">לינה טוקיו — סיום</td><td class="num">26–27.11</td><td><span class="tag">השבוע</span></td></tr>
+          <tr><td class="what">שינקנסן, מקומות שמורים</td><td class="num">19.11 · 26.11</td><td><span class="tag">חודש מראש</span></td></tr>
+          <tr><td class="what">teamLab</td><td class="num">בטוקיו</td><td><span class="tag hot">ספטמבר</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>לוגיסטיקה</h2>
+    <p class="lede">הדברים שכדאי לסדר לפני הנסיעה, לא בשדה התעופה.</p>
+    <div class="notes">
+      <div class="note">
+        <h3>מזוודות — takuhaibin</h3>
+        <p>שירות משלוח מזוודות בין מלונות, יום עסקים אחד. שולחים בבוקר, מגיע למחרת. עולה בערך ¥2,000–2,500 למזוודה. לא גוררים מזוודות בשינקנסן.</p>
+      </div>
+      <div class="note">
+        <h3>שינקנסן</h3>
+        <p>מקומות שמורים מראש, במיוחד בעונת הקויו. טוקיו–קיוטו כ־¥14,370 לנוסע. עם שתי נסיעות בלבד, JR Pass כמעט בוודאות לא משתלם.</p>
+      </div>
+      <div class="note">
+        <h3>תשלומים</h3>
+        <p>Suica באייפון או באנדרואיד מכסה רכבות, אוטובוסים ורוב חנויות הנוחות. כרטיסי אשראי מתקבלים ברוב המקומות, אבל כדאי מזומן לשווקים ולמסעדות קטנות.</p>
+      </div>
+      <div class="note">
+        <h3>אינטרנט</h3>
+        <p>eSIM לכל מכשיר עדיף על pocket wifi אחד משותף — ארבעה אנשים לא תמיד הולכים יחד. מתקינים לפני הטיסה, מפעילים בנחיתה.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    עודכן לאחרונה: 22 באוגוסט 2026 · הדף מתעדכן בהמשך התכנון · אין בו פרטים אישיים או קודי הזמנה
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var dep = new Date(2026, 10, 11, 15, 10);
+  var el = document.getElementById('countdown');
+  if(!el) return;
+  function tick(){
+    var days = Math.ceil((dep - new Date()) / 86400000);
+    el.textContent = days > 0 ? days + ' ימים' : (days === 0 ? 'היום' : 'בנסיעה');
+  }
+  tick();
+  setInterval(tick, 3600000);
+})();
+</script>
+</body>
+</html>
