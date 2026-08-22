@@ -9,16 +9,20 @@
 <meta property="og:title" content="יפן נובמבר 2026">
 <meta property="og:description" content="ארבעה נוסעים, חמישה־עשר לילות, שלוש ערי בסיס.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#F4F6FA" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0D1017" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F5F6FA" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0E15" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍁</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Hebrew:wght@400;600;700&family=Assistant:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 
 <style>
 :root{
-  --ground:#F4F6FA;
+  --ground:#F5F6FA;
+  --glow-a:rgba(46,67,116,.13);
+  --glow-b:rgba(169,56,44,.08);
+  --glow-c:rgba(44,101,82,.06);
+  --grain:.038;
   --surface:#FFFFFF;
   --surface-2:#EDF0F6;
   --ink:#12161F;
@@ -36,7 +40,11 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ground:#0D1017;
+    --ground:#0B0E15;
+    --glow-a:rgba(103,132,205,.20);
+    --glow-b:rgba(214,110,94,.13);
+    --glow-c:rgba(79,160,132,.09);
+    --grain:.05;
     --surface:#151A24;
     --surface-2:#1D2431;
     --ink:#E8ECF3;
@@ -54,7 +62,11 @@
   }
 }
 :root[data-theme="dark"]{
-  --ground:#0D1017;
+  --ground:#0B0E15;
+  --glow-a:rgba(103,132,205,.20);
+  --glow-b:rgba(214,110,94,.13);
+  --glow-c:rgba(79,160,132,.09);
+  --grain:.05;
   --surface:#151A24;
   --surface-2:#1D2431;
   --ink:#E8ECF3;
@@ -75,6 +87,7 @@
 body{
   margin:0;
   background:var(--ground);
+  position:relative;
   color:var(--ink);
   font-family:"Assistant","Segoe UI",system-ui,sans-serif;
   font-weight:400;
@@ -82,7 +95,20 @@ body{
   line-height:1.65;
   -webkit-font-smoothing:antialiased;
 }
-.wrap{direction:rtl;max-width:780px;margin:0 auto;padding:0 20px 96px}
+/* atmosphere: two fixed, non-interactive layers over the base colour */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1200px 620px at 92% -12%, var(--glow-a), transparent 60%),
+    radial-gradient(820px 460px at 2% 2%,  var(--glow-b), transparent 58%),
+    radial-gradient(900px 700px at 50% 108%, var(--glow-c), transparent 62%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:var(--grain);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;direction:rtl;max-width:780px;margin:0 auto;padding:0 20px 96px}
 
 /* ---------- header ---------- */
 .masthead{padding:56px 0 32px;border-bottom:1px solid var(--line)}
@@ -91,9 +117,9 @@ body{
   color:var(--ink-3);font-weight:600;margin:0 0 14px;
 }
 .masthead h1{
-  font-family:"Frank Ruhl Libre",Georgia,serif;
-  font-weight:900;font-size:clamp(38px,8vw,60px);line-height:1.02;
-  margin:0;letter-spacing:-.01em;text-wrap:balance;
+  font-family:"Noto Serif Hebrew","Frank Ruhl Libre",Georgia,serif;
+  font-weight:700;font-size:clamp(36px,7.2vw,55px);line-height:1.08;
+  margin:0;letter-spacing:-.015em;text-wrap:balance;
 }
 .masthead .sub{
   margin:14px 0 0;color:var(--ink-2);font-size:17px;max-width:52ch;
@@ -113,8 +139,8 @@ body{
 /* ---------- sections ---------- */
 section{padding-top:48px}
 h2{
-  font-family:"Frank Ruhl Libre",Georgia,serif;
-  font-weight:700;font-size:25px;margin:0 0 4px;letter-spacing:-.005em;
+  font-family:"Noto Serif Hebrew","Frank Ruhl Libre",Georgia,serif;
+  font-weight:600;font-size:24px;margin:0 0 4px;letter-spacing:-.01em;
 }
 .lede{margin:0 0 22px;color:var(--ink-2);font-size:15px;max-width:60ch}
 
