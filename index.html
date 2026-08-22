@@ -129,6 +129,15 @@ body::after{
 }
 .meter .v.hi{color:var(--accent)}
 
+/* ---------- bidi isolation ----------
+   מחרוזות שמערבבות לטינית/ספרות עם עברית חייבות בידוד,
+   אחרת אלגוריתם ה-bidi מסדר אותן מחדש בהקשר RTL. */
+.code,.time,.day,.dur,.lay,.nights,.place{unicode-bidi:isolate}
+/* טווחי תאריכים הם רצף LTR טהור — המקף נייטרלי והופך את הסדר בלי זה */
+.dates,.num.ltr{direction:ltr;unicode-bidi:isolate}
+bdi{unicode-bidi:isolate}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
 /* ---------- sections ---------- */
 section{padding-top:48px}
 h2{
@@ -290,55 +299,55 @@ footer{
 
   <section>
     <h2>הטיסות</h2>
-    <p class="lede">Emirates, קונקשן אחד בדובאי בכל כיוון. נכנסים ויוצאים מנאריטה.</p>
+    <p class="lede"><bdi>Emirates</bdi>, קונקשן אחד בדובאי בכל כיוון. נכנסים ויוצאים מנאריטה.</p>
     <div class="flights">
 
       <div class="flight">
         <div class="flight-head">
-          <span class="dir">הלוך · רביעי 11 בנובמבר</span>
-          <span class="dur">15 שעות</span>
+          <span class="dir">הלוך · רביעי <bdi>11</bdi> בנובמבר</span>
+          <span class="dur"><bdi>15 שעות</bdi></span>
         </div>
         <div class="hops">
           <div class="hop">
-            <span class="code">TLV · EK2449</span>
+            <span class="code"><bdi>TLV · EK2449</bdi></span>
             <span class="time">15:10</span>
             <span class="day">רביעי 11.11</span>
           </div>
           <div class="hop mid">
             <div class="dash"></div>
-            <div class="lay">DXB · 2ש׳ 30ד׳</div>
+            <div class="lay"><bdi>DXB</bdi> · <bdi>2 ש׳ 30 ד׳</bdi></div>
           </div>
           <div class="hop end">
-            <span class="code">NRT · EK320</span>
+            <span class="code"><bdi>NRT · EK320</bdi></span>
             <span class="time">13:10</span>
             <span class="day">חמישי 12.11</span>
           </div>
         </div>
-        <p class="flight-note">נחיתה בצהריים — יום ראשון קל בטוקיו, בלי לתכנן כלום אחרי 20:00.</p>
+        <p class="flight-note">נחיתה בצהריים — יום ראשון קל בטוקיו, בלי לתכנן כלום אחרי <bdi>20:00</bdi>.</p>
       </div>
 
       <div class="flight">
         <div class="flight-head">
-          <span class="dir">חזור · שישי 27 בנובמבר</span>
-          <span class="dur">22 שעות 35ד׳</span>
+          <span class="dir">חזור · שישי <bdi>27</bdi> בנובמבר</span>
+          <span class="dur"><bdi>22 שעות 35 ד׳</bdi></span>
         </div>
         <div class="hops">
           <div class="hop">
-            <span class="code">NRT · EK319</span>
+            <span class="code"><bdi>NRT · EK319</bdi></span>
             <span class="time">22:20</span>
             <span class="day">שישי 27.11</span>
           </div>
           <div class="hop mid">
             <div class="dash"></div>
-            <div class="lay">DXB · 6ש׳ 35ד׳</div>
+            <div class="lay"><bdi>DXB</bdi> · <bdi>6 ש׳ 35 ד׳</bdi></div>
           </div>
           <div class="hop end">
-            <span class="code">TLV · EK2448</span>
+            <span class="code"><bdi>TLV · EK2448</bdi></span>
             <span class="time">13:55</span>
             <span class="day">שבת 28.11</span>
           </div>
         </div>
-        <p class="flight-note">יום שישי נשאר פנוי בטוקיו עד אחר הצהריים. צ׳ק־אאוט בבוקר, מזוודות בלובי, יציאה לנאריטה סביב 18:45.</p>
+        <p class="flight-note">יום שישי נשאר פנוי בטוקיו עד אחר הצהריים. צ׳ק־אאוט בבוקר, מזוודות בלובי, יציאה לנאריטה סביב <bdi>18:45</bdi>.</p>
       </div>
 
     </div>
@@ -346,7 +355,7 @@ footer{
 
   <section>
     <h2>המסלול</h2>
-    <p class="lede">שלוש ערי בסיס ושתי נסיעות שינקנסן. המזוודות נוסעות ב־takuhaibin, לא איתנו.</p>
+    <p class="lede">שלוש ערי בסיס ושתי נסיעות שינקנסן. המזוודות נוסעות ב־<bdi>takuhaibin</bdi>, לא איתנו.</p>
 
     <div class="rail">
 
@@ -357,11 +366,19 @@ footer{
             <span class="dates">12–19.11</span>
             <span class="nights">7 לילות</span>
           </div>
-          <p class="stop-body">הבלוק הגדול. אוכל, אמנות ואדריכלות, שכונות, קניות. היומיים הראשונים נשארים רכים בכוונה בגלל הפרש השעות.</p>
+          <p class="stop-body">
+            <span class="tag good">הלינה סגורה</span>
+            הבלוק הגדול. אוכל, אמנות ואדריכלות, שכונות, קניות. היומיים הראשונים נשארים רכים בכוונה בגלל הפרש השעות.
+          </p>
+          <p class="stop-body" style="margin-top:8px">
+            <bdi><b style="color:var(--ink);font-weight:600">Daiwa Roynet Hotel Tokyo Kyobashi PREMIER</b></bdi> · קיובאשי, שני חדרים.
+            שבע דקות מיציאת יאסו הדרומית של תחנת טוקיו, ויש מעבר תת־קרקעי דרך קניון <bdi>Yaechika</bdi> כשיורד גשם.
+            עשר דקות ברגל לגינזה.
+          </p>
         </div>
       </div>
 
-      <div class="leg">חמישי 19.11 · שינקנסן <b>Nozomi</b> טוקיו ← אוסקה · כשעתיים וחצי</div>
+      <div class="leg">חמישי 19.11 · שינקנסן <bdi><b>Nozomi</b></bdi> טוקיו ← אוסקה · כשעתיים וחצי</div>
 
       <div class="stop">
         <div class="stop-card">
@@ -370,7 +387,14 @@ footer{
             <span class="dates">19–24.11</span>
             <span class="nights">5 לילות</span>
           </div>
-          <p class="stop-body">בסיס לאזור קנסאי. אוכל ורחוב, ויציאות לנארה ולקובה. סוף השבוע הארוך של החג נופל כאן — וזה בכוונה.</p>
+          <p class="stop-body">
+            <span class="tag good">הלינה סגורה</span>
+            בסיס לאזור קנסאי. אוכל ורחוב, ויציאות לנארה ולקובה. סוף השבוע הארוך של החג נופל כאן — וזה בכוונה.
+          </p>
+          <p class="stop-body" style="margin-top:8px">
+            <bdi><b style="color:var(--ink);font-weight:600">Hotel Brighton City Osaka Kitahama</b></bdi> · רובע קיטהמה על הנהר, שני חדרים פינתיים.
+            מוזיאון נקנושימה ואולם העיר מ־<bdi>1918</bdi> במרחק הליכה, ועשר דקות במידוסוג׳י לדוטונבורי.
+          </p>
         </div>
       </div>
 
@@ -389,8 +413,8 @@ footer{
             שני לילות בעיר עצמה כדי לצאת מוקדם בבוקר, לפני שהאתרים מתמלאים. אחרי החג ובאמצע השבוע.
           </p>
           <p class="stop-body" style="margin-top:8px">
-            <b style="color:var(--ink);font-weight:600">HOTEL MASTAY 神宮道</b> · שכונת היגשיאמה, שני חדרים.
-            7 דקות הליכה למקדש הייאן ו־15 לננזנג׳י — יוצאים ברגל לקויו של הבוקר בלי מונית.
+            <bdi><b style="color:var(--ink);font-weight:600">HOTEL MASTAY 神宮道</b></bdi> · שכונת היגשיאמה, שני חדרים.
+            7 דקות הליכה למקדש הייאן ו־<bdi>15</bdi> לננזנג׳י — יוצאים ברגל לקויו של הבוקר בלי מונית.
           </p>
         </div>
       </div>
@@ -404,7 +428,15 @@ footer{
             <span class="dates">26–27.11</span>
             <span class="nights">לילה 1</span>
           </div>
-          <p class="stop-body">סגירת מעגל. יום שישי לקניות אחרונות ולמה שלא הספקנו, ואז נאריטה אקספרס מתחנת טוקיו.</p>
+          <p class="stop-body">
+            <span class="tag good">הלינה סגורה</span>
+            סגירת מעגל. יום שישי לקניות אחרונות ולמה שלא הספקנו, ואז נאריטה אקספרס מתחנת טוקיו.
+          </p>
+          <p class="stop-body" style="margin-top:8px">
+            <bdi><b style="color:var(--ink);font-weight:600">Mitsui Garden Hotel Nihonbashi Premier</b></bdi> · ניחונבאשי מורומאצ׳י, שני חדרים.
+            <b style="color:var(--ink);font-weight:600">אמבט ציבורי גדול בקומה <bdi>9</bdi></b> — הדבר היחיד מסוגו בכל הלינה, ופתוח כבר משש בבוקר.
+            צ׳ק־אאוט בצהריים, מיצוקושי ההיסטורית מתחת לבניין.
+          </p>
         </div>
       </div>
 
@@ -415,17 +447,17 @@ footer{
     <h2>תאריכים שמשנים את התכנון</h2>
     <p class="lede">שני דברים בלוח השנה היפני מכתיבים את כל סדר הימים.</p>
     <div class="alert">
-      <h3>שני 23 בנובמבר — חג לאומי</h3>
-      <p>יום הודיה לעבודה, שיוצר סוף שבוע ארוך מ־21 עד 23 בנובמבר. בשילוב עם תחילת שיא הקויו, זה הזמן הכי עמוס בקיוטו בכל הסתיו. לכן אנחנו באוסקה באותם ימים, ומגיעים לקיוטו רק ב־24.</p>
+      <h3>שני <bdi>23</bdi> בנובמבר — חג לאומי</h3>
+      <p>יום הודיה לעבודה, שיוצר סוף שבוע ארוך מ־<bdi>21</bdi> עד <bdi>23</bdi> בנובמבר. בשילוב עם תחילת שיא הקויו, זה הזמן הכי עמוס בקיוטו בכל הסתיו. לכן אנחנו באוסקה באותם ימים, ומגיעים לקיוטו רק ב־<bdi>24</bdi>.</p>
     </div>
     <div class="notes" style="margin-top:14px">
       <div class="note">
-        <h3>שיא הקויו בקיוטו: 20.11 – 7.12</h3>
-        <p>הקיץ של 2026 היה חם והשיא נדחה בשלושה עד חמישה ימים. שלושת הימים שלנו בקיוטו נופלים בתוך החלון, אחרי החג ובימי חול.</p>
+        <h3>שיא הקויו בקיוטו: <bdi>20.11 – 7.12</bdi></h3>
+        <p>הקיץ של <bdi>2026</bdi> היה חם והשיא נדחה בשלושה עד חמישה ימים. שלושת הימים שלנו בקיוטו נופלים בתוך החלון, אחרי החג ובימי חול.</p>
       </div>
       <div class="note">
         <h3>מזג אוויר</h3>
-        <p>סוף נובמבר בטוקיו ובקנסאי: בערך 8–16 מעלות, יבש ובהיר ברובו. ערבים קרים. שכבות ומעיל קל, לא מעיל חורף.</p>
+        <p>סוף נובמבר בטוקיו ובקנסאי: בערך <bdi>8–16</bdi> מעלות, יבש ובהיר ברובו. ערבים קרים. שכבות ומעיל קל, לא מעיל חורף.</p>
       </div>
     </div>
   </section>
@@ -439,13 +471,13 @@ footer{
           <tr><th>פריט</th><th>תאריכים</th><th>סטטוס</th></tr>
         </thead>
         <tbody>
-          <tr><td class="what">טיסות Emirates</td><td class="num">11–28.11</td><td><span class="tag good">הוזמן</span></td></tr>
-          <tr><td class="what">לינה קיוטו — HOTEL MASTAY</td><td class="num">24–26.11</td><td><span class="tag good">הוזמן</span></td></tr>
-          <tr><td class="what">לינה אוסקה</td><td class="num">19–24.11</td><td><span class="tag hot">הבא בתור</span></td></tr>
-          <tr><td class="what">לינה טוקיו</td><td class="num">12–19.11</td><td><span class="tag">השבוע</span></td></tr>
-          <tr><td class="what">לינה טוקיו — סיום</td><td class="num">26–27.11</td><td><span class="tag">השבוע</span></td></tr>
-          <tr><td class="what">שינקנסן, מקומות שמורים</td><td class="num">19.11 · 26.11</td><td><span class="tag">חודש מראש</span></td></tr>
-          <tr><td class="what">teamLab</td><td class="num">בטוקיו</td><td><span class="tag hot">ספטמבר</span></td></tr>
+          <tr><td class="what">טיסות <bdi>Emirates</bdi></td><td class="num ltr">11–28.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">לינה קיוטו — <bdi>HOTEL MASTAY</bdi></td><td class="num ltr">24–26.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">לינה אוסקה — <bdi>Brighton City Kitahama</bdi></td><td class="num ltr">19–24.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">לינה טוקיו — <bdi>Daiwa Roynet Kyobashi PREMIER</bdi></td><td class="num ltr">12–19.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">לינה טוקיו — <bdi>Mitsui Garden Nihonbashi Premier</bdi></td><td class="num ltr">26–27.11</td><td><span class="tag good">הוזמן</span></td></tr>
+          <tr><td class="what">שינקנסן, מקומות שמורים</td><td class="num ltr">19.11 · 26.11</td><td><span class="tag">חודש מראש</span></td></tr>
+          <tr><td class="what"><bdi>teamLab</bdi></td><td class="num">בטוקיו</td><td><span class="tag hot">ספטמבר</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -456,26 +488,26 @@ footer{
     <p class="lede">הדברים שכדאי לסדר לפני הנסיעה, לא בשדה התעופה.</p>
     <div class="notes">
       <div class="note">
-        <h3>מזוודות — takuhaibin</h3>
-        <p>שירות משלוח מזוודות בין מלונות, יום עסקים אחד. שולחים בבוקר, מגיע למחרת. עולה בערך ¥2,000–2,500 למזוודה. לא גוררים מזוודות בשינקנסן.</p>
+        <h3>מזוודות — <bdi>takuhaibin</bdi></h3>
+        <p>שירות משלוח מזוודות בין מלונות, יום עסקים אחד. שולחים בבוקר, מגיע למחרת. עולה בערך <bdi>¥2,000–2,500</bdi> למזוודה. לא גוררים מזוודות בשינקנסן.</p>
       </div>
       <div class="note">
         <h3>שינקנסן</h3>
-        <p>מקומות שמורים מראש, במיוחד בעונת הקויו. טוקיו–קיוטו כ־¥14,370 לנוסע. עם שתי נסיעות בלבד, JR Pass כמעט בוודאות לא משתלם.</p>
+        <p>מקומות שמורים מראש, במיוחד בעונת הקויו. טוקיו–קיוטו כ־<bdi>¥14,370</bdi> לנוסע. עם שתי נסיעות בלבד, <bdi>JR Pass</bdi> כמעט בוודאות לא משתלם.</p>
       </div>
       <div class="note">
         <h3>תשלומים</h3>
-        <p>Suica באייפון או באנדרואיד מכסה רכבות, אוטובוסים ורוב חנויות הנוחות. כרטיסי אשראי מתקבלים ברוב המקומות, אבל כדאי מזומן לשווקים ולמסעדות קטנות.</p>
+        <p><bdi>Suica</bdi> באייפון או באנדרואיד מכסה רכבות, אוטובוסים ורוב חנויות הנוחות. כרטיסי אשראי מתקבלים ברוב המקומות, אבל כדאי מזומן לשווקים ולמסעדות קטנות.</p>
       </div>
       <div class="note">
         <h3>אינטרנט</h3>
-        <p>eSIM לכל מכשיר עדיף על pocket wifi אחד משותף — ארבעה אנשים לא תמיד הולכים יחד. מתקינים לפני הטיסה, מפעילים בנחיתה.</p>
+        <p><bdi>eSIM</bdi> לכל מכשיר עדיף על <bdi>pocket wifi</bdi> אחד משותף — ארבעה אנשים לא תמיד הולכים יחד. מתקינים לפני הטיסה, מפעילים בנחיתה.</p>
       </div>
     </div>
   </section>
 
   <footer>
-    עודכן לאחרונה: 22 באוגוסט 2026 · טיסות ולינת קיוטו סגורות · אין בדף פרטים אישיים או קודי הזמנה
+    עודכן לאחרונה: <bdi>22</bdi> באוגוסט <bdi>2026</bdi> · טיסות וכל הלינה סגורות · נותרו שינקנסן ו־<bdi>teamLab</bdi> · אין בדף פרטים אישיים או קודי הזמנה
   </footer>
 
 </div>
