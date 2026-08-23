@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>יפן · נובמבר 2026</title>
+<title>Big in Japan</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#F6F4EF">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="יפן 2026">
+<meta name="apple-mobile-web-app-title" content="Big in Japan">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
@@ -111,12 +111,13 @@ a{color:var(--accent)}
 header{
   position:sticky; top:0; z-index:40;
   background:var(--ground); border-bottom:1px solid var(--line);
-  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
-  display:flex; align-items:center; gap:10px;
+  padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
+  display:flex; align-items:center; gap:9px;
 }
 header .brand{flex:1;min-width:0}
+header .mark{width:30px;height:30px;flex:0 0 auto;fill:var(--accent)}
 header .brand b{
-  display:block; font-family:var(--disp); font-weight:700; font-size:19px;
+  display:block; font-family:var(--disp); font-weight:800; font-size:20px;
   letter-spacing:-.035em; line-height:1.15;
 }
 header .brand small{
@@ -124,7 +125,7 @@ header .brand small{
   letter-spacing:.24em; text-transform:uppercase; margin-top:3px;
 }
 .iconbtn{
-  width:44px;height:44px;border-radius:var(--r-md);border:1px solid var(--line2);
+  width:42px;height:42px;border-radius:var(--r-md);border:1px solid var(--line2);
   background:var(--surface);color:var(--ink2);font-size:17px;
   display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;
   transition:background var(--ease) 140ms;
@@ -237,6 +238,9 @@ h2:first-child{margin-top:0}
   font:inherit;font-size:14.5px;cursor:pointer;
 }
 .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-on);border-color:transparent;font-weight:600}
+.daynav{display:flex;gap:8px;margin-bottom:16px;align-items:center}
+.daynav .chip{flex:0 1 auto;min-width:0;padding:0 12px;font-size:13.5px;white-space:nowrap;overflow:hidden}
+.daynav .chip:nth-child(2){flex:0 0 auto}
 .dayhead{
   font-family:var(--disp);font-size:11px;color:var(--ink3);margin:20px 0 9px;
   font-weight:600;letter-spacing:.12em;
@@ -321,7 +325,20 @@ nav .badge{
 <body>
 
 <header>
-  <div class="brand"><b>יפן · נובמבר 2026</b><small id="hsub"></small></div>
+  <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+    <rect x="4"  y="7"  width="32" height="4.6" rx="2"/>
+    <rect x="18.6" y="11.6" width="2.8" height="4.4"/>
+    <rect x="7"  y="16" width="26" height="3.2"/>
+    <polygon points="11.6,10.5 14.6,10.5 16.2,33 12.6,33"/>
+    <polygon points="25.4,10.5 28.4,10.5 27.4,33 23.8,33"/>
+  </svg>
+  <div class="brand"><b>Big in Japan</b><small id="hsub"></small></div>
+  <button class="iconbtn" id="homebtn" aria-label="חזרה למסך הבית">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+         stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.75 20v-5.5h4.5V20"/>
+    </svg>
+  </button>
   <button class="iconbtn" id="themebtn" aria-label="החלף מצב תצוגה">◐</button>
 </header>
 
@@ -584,7 +601,7 @@ V.info = function(){
 
 /* ---------- router ---------- */
 let view = "today";
-const SUB = {today:"12–27 בנובמבר · 16 ימים", days:"כל הימים", tasks:"לפני הנסיעה",
+const SUB = {today:"נובמבר 2026 · 16 ימים", days:"כל הימים", tasks:"לפני הנסיעה",
              cats:"לפי קטגוריה", info:"מלונות · יפנית · חירום"};
 function render(){
   const app = document.getElementById("app");
@@ -616,17 +633,35 @@ document.addEventListener("click", e=>{
   const c = e.target.closest(".chip");
   if(c && c.dataset.c){ V._cat = c.dataset.c; render(); return; }
   const d = e.target.closest(".daybtn");
-  if(d){
-    const day = DAYS.find(x=>x.d===d.dataset.d);
-    document.getElementById("daylist").style.display="none";
-    const one = document.getElementById("dayone");
-    one.style.display="block";
-    one.innerHTML = '<button class="chip" id="backd" style="margin-bottom:16px">↩ חזרה לכל הימים</button>' + dayBlock(day);
-    window.scrollTo(0,0);
-    document.getElementById("backd").addEventListener("click",()=>render());
-    return;
-  }
+  if(d){ showDay(d.dataset.d); return; }
+  const step = e.target.closest("[data-step]");
+  if(step){ if(step.dataset.step==="__all"){ render(); } else { showDay(step.dataset.step); } return; }
 });
+
+/* מסך יום בודד, עם מעבר ליום הקודם והבא */
+function showDay(dstr){
+  const idx = DAYS.findIndex(x=>x.d===dstr);
+  if(idx < 0) return;
+  const day = DAYS[idx], prev = DAYS[idx-1], next = DAYS[idx+1];
+  const list = document.getElementById("daylist");
+  if(list) list.style.display="none";
+  const one = document.getElementById("dayone");
+  one.style.display="block";
+
+  /* בלי חיצים: הם מתהפכים בהקשר RTL והמילה לבדה חד-משמעית */
+  const arrow = (dy,label)=> dy
+    ? '<button class="chip" data-step="'+dy.d+'">'+label+' <span class="mono">'+ddm(dy.d)+'</span></button>'
+    : '<button class="chip" disabled style="opacity:.35">'+label+'</button>';
+
+  one.innerHTML =
+      '<div class="daynav">'
+    +   arrow(prev,"הקודם")
+    +   '<button class="chip" data-step="__all">↩ כל הימים</button>'
+    +   arrow(next,"הבא")
+    + '</div>'
+    + dayBlock(day);
+  window.scrollTo(0,0);
+}
 
 /* ---------- taxi card ---------- */
 const taxi = document.getElementById("taxi");
@@ -640,6 +675,8 @@ function openTaxi(ds){
   taxi.classList.add("on");
   document.body.style.overflow="hidden";
 }
+document.getElementById("homebtn").addEventListener("click",()=>{ view="today"; render(); });
+
 document.getElementById("taxix").addEventListener("click",()=>{
   taxi.classList.remove("on"); document.body.style.overflow="";
 });
