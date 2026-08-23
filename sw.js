@@ -1,7 +1,7 @@
 /* יפן · נובמבר 2026 — service worker
    הקבצים יושבים בשורש הריפו, שהוא שורש japantrip.odysee.me.
    הנתיבים יחסיים, כך שזה יעבוד גם אם יעבור לתת-תיקייה. */
-const CACHE = "jp2026-v10";
+const CACHE = "jp2026-v12";
 /* חובה — בלי אלה אין אפליקציה */
 const CORE = [
   "./", "./index.html", "./manifest.webmanifest",
