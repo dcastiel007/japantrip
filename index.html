@@ -342,6 +342,55 @@ nav .badge{
 #taxi .heb{font-size:15px;color:#6B7588;margin-top:14px;direction:rtl;text-align:right}
 #taxi .foot{margin-top:auto;padding-top:22px;font-size:13px;color:#A6AFC0;border-top:1px solid #E7EBF2;font-family:'Sora',sans-serif}
 @media (max-width:360px){ #taxi .jaddr{font-size:32px} }
+/* ---------- חיפוש ---------- */
+.sbox{
+  display:flex;align-items:center;gap:9px;background:var(--surface);
+  border:1px solid var(--line2);border-radius:var(--r-md);padding:0 13px;height:52px;
+  margin-bottom:14px;box-shadow:var(--shadow-sm);
+}
+.sbox .sic{flex:0 0 auto;font-size:16px;opacity:.55;line-height:1}
+#sq{
+  flex:1;min-width:0;border:0;background:none;color:var(--ink);
+  font:inherit;font-size:16.5px;padding:0;outline:none;
+}
+#sq::placeholder{color:var(--ink3)}
+#sq::-webkit-search-cancel-button,#sq::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.sclear{
+  flex:0 0 auto;width:32px;height:32px;border-radius:var(--r-sm);border:0;
+  background:var(--sunken);color:var(--ink3);font-size:13px;cursor:pointer;display:none;
+}
+.sclear.on{display:block}
+.scount{font-size:13px;color:var(--ink3);margin:0 0 4px}
+.sr{
+  width:100%;display:flex;align-items:center;gap:12px;text-align:right;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:12px 13px;margin-bottom:9px;color:inherit;font:inherit;cursor:pointer;
+  box-shadow:var(--shadow-sm);transition:transform var(--ease) 140ms;
+}
+.sr:active{transform:scale(.99)}
+.sr .srtag{
+  flex:0 0 auto;min-width:46px;height:40px;padding:0 8px;border-radius:var(--r-md);
+  background:var(--sunken);color:var(--ink2);display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12.5px;font-weight:600;direction:ltr;unicode-bidi:isolate;
+}
+.sr.city-tokyo .srtag{background:var(--info-bg);color:var(--info)}
+.sr.city-osaka .srtag{background:var(--accent-bg);color:var(--accent)}
+.sr.city-kyoto .srtag{background:var(--good-bg);color:var(--good)}
+.sr.city-hakone .srtag{background:var(--warn-bg);color:var(--warn)}
+.sr .srmain{flex:1;min-width:0}
+.sr .srmain b{display:block;font-size:16px;font-weight:600;line-height:1.35}
+.sr .srmain span{
+  display:block;font-size:12.5px;color:var(--ink3);margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+/* הבזק על היעד אחרי קפיצה מתוצאת חיפוש */
+.item .body,.tk,.card,.ph{transition:box-shadow 420ms var(--ease)}
+.item.flash .body,.tk.flash,.card.flash{box-shadow:0 0 0 2px var(--accent),var(--shadow-md)}
+.ph.flash{box-shadow:0 0 0 2px var(--accent);border-radius:var(--r-md)}
+@media (max-width:380px){
+  nav button{font-size:9.5px;padding-left:0;padding-right:0}
+}
+
 </style>
 </head>
 <body>
@@ -374,6 +423,7 @@ nav .badge{
 
 <nav>
   <button data-v="today" aria-current="true"><span class="g">📍</span>היום</button>
+  <button data-v="search"><span class="g">🔍</span>חיפוש</button>
   <button data-v="days"><span class="g">🗓</span>הימים</button>
   <button data-v="tasks"><span class="g">✓</span>משימות</button>
   <button data-v="cats"><span class="g">🧭</span>קטגוריות</button>
@@ -459,7 +509,7 @@ const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURI
 
 function itemHTML(it){
   const c = CAT[it.cat] || {ic:"•"};
-  let h = '<div class="item"><div class="rail">';
+  let h = '<div class="item" data-sk="'+escA(skey(it))+'"><div class="rail">';
   h += '<div class="tm">'+(it.t?esc(it.t):"—")+'</div>';
   h += '<span class="ic">'+c.ic+'</span></div><div class="body">';
   h += '<div class="nm">'+esc(it.n)+'</div>';
@@ -553,6 +603,16 @@ V.days = function(){
 /* ---------- tasks ---------- */
 let DONE = {};
 try{ DONE = JSON.parse(localStorage.getItem("jp-done")||"{}"); }catch(e){ DONE = {}; }
+/* גרסאות עד v31 שמרו את המפתח עם תווי בידוד דו-כיווני, ולכן
+   הסימון לא נמצא בקריאה. מנקים פעם אחת כדי שסימונים ישנים יחזרו. */
+(function(){
+  let fixed = false;
+  Object.keys(DONE).forEach(k=>{
+    const c = k.replace(/[⁦-⁩]/g,"");
+    if(c !== k){ delete DONE[k]; DONE[c] = 1; fixed = true; }
+  });
+  if(fixed){ try{ localStorage.setItem("jp-done", JSON.stringify(DONE)); }catch(e){} }
+})();
 const saveDone = ()=>{ try{ localStorage.setItem("jp-done", JSON.stringify(DONE)); }catch(e){} };
 const tkey = tk => tk.d + "|" + tk.n;
 
@@ -565,7 +625,7 @@ function taskHTML(tk){
   const t = today();
   const done = !!DONE[tkey(tk)];
   const cls = done ? "" : (tk.d < t ? " past" : (tk.d <= addDays(t,14) ? " due" : ""));
-  let h = '<div class="tk'+cls+'" data-done="'+(done?1:0)+'" data-k="'+esc(tkey(tk))+'">';
+  let h = '<div class="tk'+cls+'" data-done="'+(done?1:0)+'" data-k="'+escA(tkey(tk))+'">';
   h += '<button class="box" aria-label="סמן כבוצע">'+(done?"✓":"")+'</button>';
   h += '<div class="tmain"><b>'+(TCAT[tk.cat]||"")+' '+esc(tk.n)+'</b>';
   if(tk.note) h += '<div class="tnote">'+rich(tk.note)+'</div>';
@@ -611,7 +671,7 @@ V.cats = function(){
 V.info = function(){
   let h = '<h2>המלונות</h2>';
   DATA.hotels.forEach(ht=>{
-    h += '<div class="card"><div class="nm" style="font-size:17.5px;font-weight:600">'+esc(ht.n)+'</div>';
+    h += '<div class="card" data-sk="'+escA("hotel|"+ht.n)+'"><div class="nm" style="font-size:17.5px;font-weight:600">'+esc(ht.n)+'</div>';
     h += '<div class="ja jp" style="font-size:13px;color:var(--ink3);margin-top:2px">'+esc(ht.ja)+'</div>';
     if(ht.dates) h += '<div class="row"><span class="k">🗓</span><span>'+esc(ht.dates)+'</span></div>';
     if(ht.tel)   h += '<div class="row"><span class="k">☎️</span><a class="mono" href="tel:'+escA(ht.tel.replace(/[^+\d]/g,""))+'">'+esc(ht.tel)+'</a></div>';
@@ -634,7 +694,7 @@ V.info = function(){
   groups.forEach(bk=>{
     h += '<h2>' + esc(bk.g==="כללי" ? "משפטים ביפנית" : bk.g) + '</h2><div class="card">';
     bk.list.forEach(p=>{
-      h += '<div class="ph"><div class="he">'+esc(p[0])+'</div><div class="jaline jp">'+esc(p[1])+'</div><div class="ro">'+esc(p[2])+'</div></div>';
+      h += '<div class="ph" data-sk="'+escA("ph|"+p[1])+'"><div class="he">'+esc(p[0])+'</div><div class="jaline jp">'+esc(p[1])+'</div><div class="ro">'+esc(p[2])+'</div></div>';
     });
     h += '</div>';
   });
@@ -663,9 +723,163 @@ V.info = function(){
   return h;
 };
 
+/* ---------- חיפוש ----------
+   מחפשים בנתונים הגולמיים, לא בטקסט המרונדר: הרינדור מזריק תווי
+   בידוד דו-כיווני (LRI/PDI) לתוך כל רצף מספרי, וחיפוש טקסט עליהם
+   נכשל. loose() מוריד ניקוד, גרשיים, מקפים ופיסוק משני הצדדים,
+   ולכן «צ'ק אין» מוצא «צ׳ק-אין» ו-«teamlab» מוצא «teamLab». */
+const LOOSE_KEEP = /[^0-9a-zא-ת぀-ヿ一-鿿ｦ-ﾟ]+/g;
+const loose = s => String(s==null?"":s).toLowerCase()
+  .replace(/[֑-ׇ]/g,"")
+  .replace(/['׳’`״"“”]/g,"")
+  .replace(LOOSE_KEEP," ").replace(/\s+/g," ").trim();
+/* dataset מחזיר את הערך אחרי פענוח HTML, אבל תווי הבידוד נשארים.
+   השוואת מפתחות חייבת לרוץ על שני הצדדים אחרי הסרה. */
+const strip = s => String(s==null?"":s).replace(/[⁦-⁩]/g,"");
+const skey = it => it.d + "|" + (it.t||"") + "|" + it.n;
+
+const SIDX = [];
+(function(){
+  let ord = 0;
+  DAYS.forEach(day=>{
+    SIDX.push({kind:"day", go:"day", ord:ord++, d:day.d, sk:day.d, city:day.city,
+      tag:String(day.i),
+      title:"יום " + dow(day.d) + " · " + day.cityHe,
+      sub:ddm(day.d) + " · " + day.items.length + " פריטים",
+      blob:loose([day.cityHe, "יום "+dow(day.d), ddm(day.d),
+                  day.items.map(x=>x.n).join(" ")].join(" ")),
+      lt:loose(day.cityHe + " יום " + dow(day.d) + " " + ddm(day.d))});
+    day.items.forEach(it=>{
+      SIDX.push({kind:"item", go:"item", ord:ord++, d:day.d, sk:skey(it), city:day.city,
+        tag:ddm(day.d),
+        title:it.n,
+        sub:(it.t ? it.t + " · " : "") + "יום " + dow(day.d) + " · " + day.cityHe
+            + (it.en ? " · " + it.en : ""),
+        blob:loose([it.n, it.en, it.ja, it.st, it.note, it.book, it.warn,
+                    it.price, it.hrs, it.addr, (it.do||[]).join(" ")].join(" ")),
+        lt:loose(it.n + " " + (it.en||""))});
+    });
+  });
+  DATA.hotels.forEach(ht=>{
+    SIDX.push({kind:"hotel", go:"hotel", ord:ord++, sk:"hotel|"+ht.n, tag:"🏨",
+      title:ht.n, sub:ht.dates || "",
+      blob:loose([ht.n, ht.ja, ht.dates, ht.note, ht.addr, ht.tel].join(" ")),
+      lt:loose(ht.n)});
+  });
+  DATA.tasks.forEach(tk=>{
+    SIDX.push({kind:"task", go:"task", ord:ord++, sk:tkey(tk), tag:"✓",
+      title:tk.n, sub:ddm(tk.d),
+      blob:loose([tk.n, tk.note, ddm(tk.d)].join(" ")),
+      lt:loose(tk.n)});
+  });
+  DATA.phrases.forEach(p=>{
+    SIDX.push({kind:"phrase", go:"phrase", ord:ord++, sk:"ph|"+p[1], tag:"あ",
+      title:p[0], sub:(p[2]||""),
+      blob:loose([p[0], p[1], p[2], p[3]||""].join(" ")),
+      lt:loose(p[0])});
+  });
+})();
+
+const SUGG = ["קפה","מוזיאון","teamLab","סכינים","שינקנסן","סאקה","מזוודות","אמבט"];
+const SGROUP = [["item","במסלול"],["day","ימים שלמים"],["hotel","מלונות"],
+                ["task","משימות"],["phrase","יפנית"]];
+const SHINT = '<div class="card muted">מחפש בשמות, בהערות, בתחנות, בשעות, בכתובות, '
+  + 'במלונות, במשימות ובמשפטים ביפנית — בכל ששת עשר הימים. '
+  + 'אפשר גם באנגלית וגם ביפנית. מספיק חלק ממילה.</div>';
+
+V.search = function(){
+  let h = '<div class="sbox"><span class="sic" aria-hidden="true">🔍</span>'
+        + '<input id="sq" type="search" enterkeyhint="search" autocomplete="off" '
+        + 'autocapitalize="off" spellcheck="false" aria-label="חיפוש" '
+        + 'placeholder="שם מקום, מנה, תחנה, משימה…">'
+        + '<button class="sclear" id="sclear" type="button" aria-label="נקה">✕</button></div>';
+  h += '<div class="chips" id="sugg">'
+     + SUGG.map(x=>'<button class="chip" data-q="'+escA(x)+'">'+esc(x)+'</button>').join("")
+     + '</div><div id="sres"></div>';
+  return h;
+};
+
+function srHTML(r){
+  return '<button class="sr'+(r.city ? " city-"+r.city : "")+'" data-go="'+r.go+'"'
+    + ' data-sk="'+escA(r.sk)+'" data-d="'+escA(r.d||"")+'">'
+    + '<span class="srtag">'+esc(r.tag)+'</span>'
+    + '<span class="srmain"><b>'+esc(r.title)+'</b><span>'+esc(r.sub)+'</span></span></button>';
+}
+
+function runSearch(){
+  const box = document.getElementById("sres");
+  if(!box) return;
+  const cl = document.getElementById("sclear");
+  const sg = document.getElementById("sugg");
+  const q = (V._q||"").trim();
+  if(cl) cl.classList.toggle("on", !!q);
+  /* ההצעות תופסות שתי שורות. ברגע שיש שאילתה הן יורדות מהמסך
+     כדי שהתוצאה הראשונה תהיה גלויה בלי גלילה. */
+  if(sg) sg.style.display = q ? "none" : "";
+  const toks = q.split(/\s+/).map(loose).filter(Boolean);
+  if(!toks.length){ box.innerHTML = SHINT; return; }
+  const hits = SIDX.filter(r => toks.every(t => r.blob.indexOf(t) >= 0));
+  if(!hits.length){
+    box.innerHTML = '<div class="card muted">לא נמצא כלום ל־«'+esc(q)+'». '
+      + 'נסו מילה אחת בלבד, או רק חלק ממנה.</div>';
+    return;
+  }
+  hits.forEach(r => { r._s = toks.every(t => r.lt.indexOf(t) >= 0) ? 0 : 1; });
+  hits.sort((a,b) => (a._s - b._s) || (a.ord - b.ord));
+  let h = '<div class="scount">'
+        + esc(hits.length === 1 ? "תוצאה אחת" : hits.length + " תוצאות") + '</div>';
+  SGROUP.forEach(g=>{
+    const list = hits.filter(r => r.kind === g[0]);
+    if(!list.length) return;
+    h += '<h2>'+g[1]+'</h2>' + list.map(srHTML).join("");
+  });
+  box.innerHTML = h;
+}
+
+/* קפיצה מתוצאה אל הפריט עצמו, במסך שבו הוא באמת חי */
+function flashTo(sel, key){
+  const want = strip(key);
+  requestAnimationFrame(()=>{
+    let el = null;
+    document.querySelectorAll(sel).forEach(x=>{
+      if(el) return;
+      if(strip(x.dataset.sk || x.dataset.k || "") === want) el = x;
+    });
+    if(!el) return;
+    el.scrollIntoView({block:"center"});
+    el.classList.add("flash");
+    setTimeout(()=>el.classList.remove("flash"), 2600);
+  });
+}
+function goResult(ds){
+  if(ds.go === "day" || ds.go === "item"){
+    view = "days"; render(); showDay(ds.d || ds.sk);
+    if(ds.go === "item") flashTo(".item", ds.sk);
+  } else if(ds.go === "hotel"){ view = "info"; render(); flashTo(".card", ds.sk); }
+  else if(ds.go === "task"){ view = "tasks"; render(); flashTo(".tk", ds.sk); }
+  else if(ds.go === "phrase"){ view = "info"; render(); flashTo(".ph", ds.sk); }
+}
+
+/* אחרי כל רינדור של מסך החיפוש: להחזיר את השאילתה, לחבר מאזין
+   ולפתוח את המקלדת. הקלדה מעדכנת רק את #sres ולא מרנדרת מחדש —
+   רינדור מלא היה גוזל את הפוקוס מהשדה אחרי כל תו. */
+function afterRender(){
+  if(view !== "search") return;
+  const inp = document.getElementById("sq");
+  if(!inp) return;
+  inp.value = V._q || "";
+  inp.addEventListener("input", ()=>{ V._q = inp.value; runSearch(); });
+  inp.addEventListener("keydown", e=>{
+    if(e.key === "Escape"){ V._q = ""; inp.value = ""; runSearch(); }
+  });
+  runSearch();
+  try{ inp.focus({preventScroll:true}); }catch(e){ inp.focus(); }
+}
+
 /* ---------- router ---------- */
 let view = "today";
 const SUB = {today:"נובמבר 2026 · 16 ימים", days:"כל הימים", tasks:"לפני הנסיעה",
+             search:"חיפוש בכל המסלול",
              cats:"לפי קטגוריה", info:"מלונות · יפנית · חירום"};
 function render(){
   const app = document.getElementById("app");
@@ -674,6 +888,7 @@ function render(){
   document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-current", b.dataset.v===view));
   document.getElementById("hsub").textContent = bidi(SUB[view]);
   badge();
+  afterRender();
 }
 function badge(){
   const b = document.querySelector('nav button[data-v="tasks"]');
@@ -694,6 +909,22 @@ document.addEventListener("click", e=>{
     if(DONE[k]) delete DONE[k]; else DONE[k]=1;
     saveDone(); render(); return;
   }
+  const sx = e.target.closest("#sclear");
+  if(sx){
+    V._q = "";
+    const i = document.getElementById("sq");
+    if(i){ i.value = ""; i.focus(); }
+    runSearch(); return;
+  }
+  const sg = e.target.closest("[data-q]");
+  if(sg){
+    V._q = sg.dataset.q;
+    const i = document.getElementById("sq");
+    if(i) i.value = V._q;
+    runSearch(); return;
+  }
+  const sr = e.target.closest(".sr");
+  if(sr){ goResult(sr.dataset); return; }
   const c = e.target.closest(".chip");
   if(c && c.dataset.c){ V._cat = c.dataset.c; render(); return; }
   const d = e.target.closest(".daybtn");
